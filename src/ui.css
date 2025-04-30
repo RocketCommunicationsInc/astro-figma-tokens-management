@@ -3,6 +3,7 @@
   --color-bg: var(--figma-color-bg);
   --color-bg-hover: var(--figma-color-bg-hover);
   --color-bg-active: var(--figma-color-bg-pressed);
+  --color-bg-disabled: var(--figma-color-bg-disabled);
   --color-border: var(--figma-color-border);
   --color-border-focus: var(--figma-color-border-selected);
   --color-text: var(--figma-color-text);
@@ -47,12 +48,26 @@ main {
   display: grid;
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
-    "header"
+    "buttons"
     "output"
-    "buttons";
+    "instructions"
+    ;
   gap: var(--spacing-2);
   height: calc(100vh - var(--spacing-4))
 }
+
+/* instructions */
+.instructions {
+  grid-area: instructions;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.instructions-text {
+  font-size: 0.8em;
+  margin: var(--spacing-2) auto;
+}
+
 
 /* Output */
 .feedback {
@@ -76,19 +91,9 @@ main {
   display: flex;
   gap: inherit;
   grid-area: buttons;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex-wrap: wrap;
   flex-direction: row;
-}
-
-.dev-actions {
-  width: 100%;
-  display: flex;
-  gap: inherit;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: baseline;
 }
 
 button {
@@ -98,6 +103,12 @@ button {
   cursor: pointer;
   border: 1px solid var(--color-border);
   padding: 0.5rem 1rem;
+}
+
+button:disabled,
+button:disabled:hover {
+  background-color: var(--color-bg-disabled);
+  cursor: default;
 }
 
 button:hover {

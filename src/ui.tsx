@@ -9,25 +9,23 @@ import "./ui.css";
 
 function App() {
   // Set up the state for the output
-  const [output, setOutput] = useState<string>('');
+  const [output, setOutput] = useState<string | undefined>(undefined);
   const [readyToCopy, setReadyToCopy] = useState<boolean>(false);
-
-  // Tell the plugin code to lint the selection
-  const onLintSelection = () => {
-    parent.postMessage({ pluginMessage: { type: 'lint-selection' } }, '*')
-  };
+  const [copiedToClipboard, setCopiedToClipboard] = useState<boolean>(false);
 
   // Tell the plugin code to export color styles
   const onExportColor = () => {
-    setOutput("");
+    setOutput(undefined);
     setReadyToCopy(false);
+    setCopiedToClipboard(false);
     parent.postMessage({ pluginMessage: { type: 'export-color' } }, '*')
   }
 
   // Tell the plugin code to export type styles
   const onExportType = () => {
-    setOutput("");
+    setOutput(undefined);
     setReadyToCopy(false);
+    setCopiedToClipboard(false);
     parent.postMessage({ pluginMessage: { type: 'export-type' } }, '*')
   }
 
@@ -57,9 +55,25 @@ function App() {
 
   return (
     <main>
-      <header>
-        <p>Select objects to test</p>
-      </header>
+      <section className="buttons">
+        {/* Tools for plugin developers */}
+        <button onClick={onExportColor}>Export Color Styles</button>
+        <button onClick={onExportType}>Export Text Styles</button>
+        {!readyToCopy ? (
+          <button className="primary" disabled>Copy</button>
+        ) : (
+          <CopyToClipboardButton
+            text={JSON.stringify(output)}
+            onSuccess={() => setCopiedToClipboard(true)}
+            onError={() => setCopiedToClipboard(false)}
+          >
+            <button className="primary">
+              {!copiedToClipboard ? "Copy" : "Copied!"}
+            </button>
+          </CopyToClipboardButton>
+        )}
+        <button onClick={onCancel}>Cancel</button>
+      </section>
 
       <section className="feedback">
         <JSONPretty
@@ -70,33 +84,14 @@ function App() {
         />
       </section>
 
-      <footer className="buttons">
-        <button className="primary" onClick={onLintSelection}>
-          Test Selection
-        </button>
-        <button onClick={onCancel}>Cancel</button>
-
-        {/* Tools for plugin developers */}
-        <div className="dev-actions">
-          <h4>Dev Actions</h4>
-          <button onClick={onExportColor}>
-            Export Color Styles
-          </button>
-          <button onClick={onExportType}>
-            Export Text Styles
-          </button>
-          {readyToCopy && (
-            <CopyToClipboardButton
-              text={JSON.stringify(output)}
-              onSuccess={() => console.log('success!')}
-              onError={() => console.log('error!')}
-            >
-              <button>Copy</button>
-            </CopyToClipboardButton>
-          )}
-
-        </div>
-      </footer>
+      <section className="instructions">
+        <details>
+          <summary>Instructions</summary>
+          <p className="instructions-text">
+            This plugin will export the color and text styles from this file. Click the buttons below to export the color or text styles, then copy the JSON output and save to <code>tokens.json</code> in the linter codebase.
+          </p>
+        </details>
+      </section>
     </main>
   );
 }

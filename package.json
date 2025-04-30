@@ -1,7 +1,7 @@
 {
-  "name": "astro-token-management",
+  "name": "astro-plugin-development-tools",
   "version": "1.0.0",
-  "description": "Your Figma Plugin",
+  "description": "manage hard coded tokens for the Astro token linter plugin",
   "main": "code.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
