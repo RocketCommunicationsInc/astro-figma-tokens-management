@@ -15,7 +15,7 @@ function App() {
 
   // Tell the plugin code to export color styles
   const onExportColor = () => {
-    setOutput("");
+    setOutput(undefined);
     setReadyToCopy(false);
     setCopiedToClipboard(false);
     parent.postMessage({ pluginMessage: { type: 'export-color' } }, '*')
@@ -23,7 +23,7 @@ function App() {
 
   // Tell the plugin code to export type styles
   const onExportType = () => {
-    setOutput("");
+    setOutput(undefined);
     setReadyToCopy(false);
     setCopiedToClipboard(false);
     parent.postMessage({ pluginMessage: { type: 'export-type' } }, '*')
