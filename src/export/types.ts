@@ -4,4 +4,5 @@ export type TokensJSON = {
     light: Record<string, unknown>;
   };
   "type-tokens": Record<string, unknown>;
+  "components": Record<string, unknown>;
 };

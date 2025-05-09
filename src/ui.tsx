@@ -9,12 +9,14 @@ import "./ui.css";
 
 function App() {
   // Set up the state for the output
+  const [isWaiting, setIsWaiting] = useState<boolean>(false);
   const [output, setOutput] = useState<string | undefined>(undefined);
   const [readyToCopy, setReadyToCopy] = useState<boolean>(false);
   const [copiedToClipboard, setCopiedToClipboard] = useState<boolean>(false);
 
   // Tell the plugin code to export color styles
   const onExportColor = () => {
+    setIsWaiting(true);
     setOutput(undefined);
     setReadyToCopy(false);
     setCopiedToClipboard(false);
@@ -23,10 +25,20 @@ function App() {
 
   // Tell the plugin code to export type styles
   const onExportType = () => {
+    setIsWaiting(true);
     setOutput(undefined);
     setReadyToCopy(false);
     setCopiedToClipboard(false);
     parent.postMessage({ pluginMessage: { type: 'export-type' } }, '*')
+  }
+
+  // Tell the plugin code to export component metadata
+  const onExportComponents = () => {
+    setIsWaiting(true);
+    setOutput(undefined);
+    setReadyToCopy(false);
+    setCopiedToClipboard(false);
+    parent.postMessage({ pluginMessage: { type: 'export-components' } }, '*')
   }
 
   // Tell the plugin code to close the plugin
@@ -42,6 +54,7 @@ function App() {
       console.log("got this from the plugin code", messageType, messageContent);
       // Handle incoming message with exported JSON
       if (messageType === "exportJSON") {
+        setIsWaiting(false);
         setOutput(messageContent);
         setReadyToCopy(true);
       }
@@ -59,6 +72,7 @@ function App() {
         {/* Tools for plugin developers */}
         <button onClick={onExportColor}>Export Color Styles</button>
         <button onClick={onExportType}>Export Text Styles</button>
+        <button onClick={onExportComponents}>Export Components</button>
         {!readyToCopy ? (
           <button className="primary" disabled>Copy</button>
         ) : (
@@ -76,12 +90,17 @@ function App() {
       </section>
 
       <section className="feedback">
+        {isWaiting ? (
+          <p className="waiting">Waiting for Figma...</p>
+        ) : (
         <JSONPretty
           className="json-text"
           id="bi-json-export"
           data={JSON.stringify(output)}
           theme={JSONPrettyMon}
         />
+        )}
+
       </section>
 
       <section className="instructions">
