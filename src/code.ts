@@ -1,5 +1,6 @@
 import { exportColorStyles } from "./export/export-color-styles";
 import { exportTypeStyles } from "./export/export-type-styles";
+import { exportComponents } from "./export/export-components";
 
 figma.showUI(__html__, { themeColors: true, width: 650, height: 525 });
 
@@ -20,7 +21,13 @@ figma.ui.onmessage = (msg: { type: string; count: number }) => {
     exportTypeStyles();
   }
 
+  if (msg.type === "export-components") {
+    figma.notify("Exporting component metadata...");
+    exportComponents();
+  }
+
   if (msg.type === "cancel") {
     figma.closePlugin();
   }
 };
+// exportComponents();
