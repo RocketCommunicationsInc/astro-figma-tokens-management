@@ -5,8 +5,18 @@ const exportTypeStyles = async () => {
   // Set up the JSON object structure
   const tokensJSON: TokensJSON = {
     ...tokensImport,
-    "type-tokens": tokensImport["type-tokens"],
+    "type-tokens": {
+      dark: tokensImport["type-tokens"]["dark"],
+      light: tokensImport["type-tokens"]["light"],
+    },
   };
+
+  // NOTE: The "dark" and "light" sections for type tokens are only necessary
+  // because we have light and dark themes coming from different Figma files.
+  // The ID's of the type styles are different in each file,
+  // so we need to separate them by theme.
+  const figmaFileName = figma.root.name;
+  const themename = figmaFileName.includes("light") ? "light" : "dark";
 
   // Get all local type styles
   const typeStyles = await figma.getLocalTextStylesAsync().then(
@@ -63,7 +73,7 @@ const exportTypeStyles = async () => {
   });
 
   // sort type styles into respective json sections
-  tokensJSON["type-tokens"] = typeStylesJSON;
+  tokensJSON["type-tokens"][themename] = typeStylesJSON;
 
   // Send JSON to the UI
   figma.ui.postMessage({ type: "exportJSON", content: tokensJSON });
