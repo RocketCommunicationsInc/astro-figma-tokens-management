@@ -12,7 +12,7 @@ const exportTypeStyles = async () => {
   };
 
   // NOTE: The "dark" and "light" sections for type tokens are only necessary
-  // because we have light and dark themes coming from differeint Figma files.
+  // because we have light and dark themes coming from different Figma files.
   // The ID's of the type styles are different in each file,
   // so we need to separate them by theme.
   const figmaFileName = figma.root.name;
