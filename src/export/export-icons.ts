@@ -29,7 +29,7 @@ const exportIcons = async () => {
     findComponentsOnPage(page, iconsJSON);
   });
 
-  // sort components into respective json sections
+  // Sort icons into the respective JSON section
   tokensJSON["icons"] = iconsJSON;
 
   // Send JSON to the UI
