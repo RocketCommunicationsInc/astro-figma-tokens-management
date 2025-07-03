@@ -1,6 +1,7 @@
 import { exportColorStyles } from "./export/export-color-styles";
 import { exportTypeStyles } from "./export/export-type-styles";
 import { exportComponents } from "./export/export-components";
+import { exportIcons } from "./export/export-icons";
 
 figma.showUI(__html__, { themeColors: true, width: 650, height: 525 });
 
@@ -24,6 +25,11 @@ figma.ui.onmessage = (msg: { type: string; count: number }) => {
   if (msg.type === "export-components") {
     figma.notify("Exporting component metadata...");
     exportComponents();
+  }
+
+  if (msg.type === "export-icons") {
+    figma.notify("Exporting icon metadata...");
+    exportIcons();
   }
 
   if (msg.type === "cancel") {

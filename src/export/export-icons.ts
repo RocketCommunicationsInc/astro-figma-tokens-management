@@ -4,7 +4,7 @@ import { loadAllPages } from "./load-all-pages";
 import { TokensJSON } from "./types";
 
 // Create an object to hold the components data
-const componentsJSON: {
+const iconsJSON: {
   [key: string]: {
     id: string;
     name: string;
@@ -14,11 +14,11 @@ const componentsJSON: {
   };
 } = {};
 
-const exportComponents = async () => {
+const exportIcons = async () => {
   // Set up the JSON object structure
   const tokensJSON: TokensJSON = {
     ...tokensImport,
-    "components": tokensImport["components"],
+    "icons": tokensImport["icons"],
   };
 
   // Load all pages
@@ -26,14 +26,14 @@ const exportComponents = async () => {
 
   // Process each page
   pages.forEach((page) => {
-    findComponentsOnPage(page, componentsJSON);
+    findComponentsOnPage(page, iconsJSON);
   });
 
   // sort components into respective json sections
-  tokensJSON["components"] = componentsJSON;
+  tokensJSON["icons"] = iconsJSON;
 
   // Send JSON to the UI
   figma.ui.postMessage({ type: "exportJSON", content: tokensJSON });
 };
 
-export { exportComponents };
+export { exportIcons };
