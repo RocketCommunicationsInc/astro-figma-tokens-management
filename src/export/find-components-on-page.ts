@@ -10,10 +10,10 @@ interface ComponentsJSON {
   [name: string]: ComponentNodeInfo;
 }
 
-const findComponentsOnPage = async (
+const findComponentsOnPage = (
   page: PageNode,
   componentsJSON: ComponentsJSON
-): Promise<void> => {
+): void => {
   const components = page.findAll(
     (node: SceneNode) =>
       (node.type === "COMPONENT_SET" || node.type === "COMPONENT") &&
@@ -22,7 +22,7 @@ const findComponentsOnPage = async (
   );
 
   // Loop through the components and add them to the JSON object
-  components.map((component: SceneNode & { key?: string }) => {
+  components.forEach((component: SceneNode & { key?: string }) => {
     componentsJSON[component.name] = {
       id: component.id,
       type: component.type,
