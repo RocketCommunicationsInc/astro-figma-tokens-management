@@ -8,4 +8,5 @@ export type TokensJSON = {
     light: Record<string, unknown>;
   };
   "components": Record<string, unknown>;
+  "icons": Record<string, unknown>;
 };

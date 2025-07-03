@@ -41,6 +41,15 @@ function App() {
     parent.postMessage({ pluginMessage: { type: 'export-components' } }, '*')
   }
 
+  // Tell the plugin code to export icon metadata
+  const onExportIcons = () => {
+    setIsWaiting(true);
+    setOutput(undefined);
+    setReadyToCopy(false);
+    setCopiedToClipboard(false);
+    parent.postMessage({ pluginMessage: { type: 'export-icons' } }, '*')
+  }
+
   // Tell the plugin code to close the plugin
   const onCancel = () => {
     parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
@@ -73,6 +82,7 @@ function App() {
         <button onClick={onExportColor}>Export Color Styles</button>
         <button onClick={onExportType}>Export Text Styles</button>
         <button onClick={onExportComponents}>Export Components</button>
+        <button onClick={onExportIcons}>Export Icons</button>
         {!readyToCopy ? (
           <button className="primary" disabled>Copy</button>
         ) : (
