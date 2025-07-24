@@ -8,12 +8,25 @@ const exportColorStyles = async () => {
     "color-tokens": {
       dark: tokensImport["color-tokens"]["dark"],
       light: tokensImport["color-tokens"]["light"],
+      wireframe: tokensImport["color-tokens"]["wireframe"],
     },
   };
 
   // sort color themes into respective json sections
   const figmaFileName = figma.root.name;
-  const themename = figmaFileName.includes("light") ? "light" : "dark";
+  let themename: "dark" | "light" | "wireframe";
+  switch (true) {
+    case figmaFileName.includes("light"):
+      themename = "light";
+      break;
+    case figmaFileName.includes("wireframe"):
+      themename = "wireframe";
+      break;
+    case figmaFileName.includes("dark"):
+    default:
+      themename = "dark";
+      break;
+  }
 
   // Get all local paint styles
   const paintStyles = await figma.getLocalPaintStylesAsync().then(
