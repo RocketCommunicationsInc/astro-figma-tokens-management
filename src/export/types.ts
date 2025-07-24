@@ -7,6 +7,7 @@ export type TokensJSON = {
   "type-tokens": {
     dark: Record<string, unknown>;
     light: Record<string, unknown>;
+    wireframe: Record<string, unknown>;
   };
   "components": Record<string, unknown>;
   "icons": Record<string, unknown>;

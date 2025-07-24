@@ -8,6 +8,7 @@ const exportTypeStyles = async () => {
     "type-tokens": {
       dark: tokensImport["type-tokens"]["dark"],
       light: tokensImport["type-tokens"]["light"],
+      wireframe: tokensImport["type-tokens"]["wireframe"],
     },
   };
 
@@ -16,7 +17,20 @@ const exportTypeStyles = async () => {
   // The ID's of the type styles are different in each file,
   // so we need to separate them by theme.
   const figmaFileName = figma.root.name;
-  const themename = figmaFileName.includes("light") ? "light" : "dark";
+  let themename: "dark" | "light" | "wireframe";
+  switch (true) {
+    case figmaFileName.includes("light"):
+      themename = "light";
+      break;
+    case figmaFileName.includes("Wireframe"):
+      themename = "wireframe";
+      break;
+    case figmaFileName.includes("dark"):
+    default:
+      themename = "dark";
+      break;
+  }
+  debugger;
 
   // Get all local type styles
   const typeStyles = await figma.getLocalTextStylesAsync().then(
