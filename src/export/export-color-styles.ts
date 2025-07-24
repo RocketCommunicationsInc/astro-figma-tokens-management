@@ -19,7 +19,7 @@ const exportColorStyles = async () => {
     case figmaFileName.includes("light"):
       themename = "light";
       break;
-    case figmaFileName.includes("wireframe"):
+    case figmaFileName.includes("Wireframe"):
       themename = "wireframe";
       break;
     case figmaFileName.includes("dark"):
