@@ -30,7 +30,6 @@ const exportTypeStyles = async () => {
       themename = "dark";
       break;
   }
-  debugger;
 
   // Get all local type styles
   const typeStyles = await figma.getLocalTextStylesAsync().then(
